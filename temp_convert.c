@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
   int dest;
 
   /* values in and out */
-  double val;
+  double val = 0.0;
 
   /* Dest unit */
   while ((opt = getopt(argc, argv, "cfkh")))
