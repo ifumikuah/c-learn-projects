@@ -1,6 +1,7 @@
 /*Argument Parsing
 Parse incoming arguments with unistd.h getopt*/
 
+/*see https://pubs.opengroup.org/onlinepubs/7908799/xsh/unistd.h.html*/
 #include <unistd.h>
 #include <stdio.h>
 #include <time.h>
@@ -14,6 +15,7 @@ int main(int argc, char* argv[]) {
   time_t* rtime;
   time(rtime);
 
+  /*see https://pubs.opengroup.org/onlinepubs/7908799/xsh/getopt.html*/
   while ((opt = getopt(argc, argv, "hp:t")) != -1)
   {
     switch (opt)
@@ -35,5 +37,6 @@ int main(int argc, char* argv[]) {
       return 1;
     }
   }
+
   return 0;
 }
