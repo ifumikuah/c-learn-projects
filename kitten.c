@@ -39,9 +39,10 @@ int main(int argc, char** argv) {
       break;
     case 'h':
       help(exit_status);
-      break;
     default:
-      break;
+      exit_status = 1;
+      printf("Error: try %s -h for usage", PROG_NAME);
+      return exit_status;
     }
   }
  
@@ -51,7 +52,13 @@ int main(int argc, char** argv) {
 
 void help(int status)
 {
-  printf("--coming soon\n");
+  printf("kitten: minimal implementation of GNU utils 'cat'\n\n");
+  printf("Usage: %s [OPT] [FILE]...\n\n", PROG_NAME);
+  printf("OPT\n");
+  printf("-s  suppress repeated empty output lines\n");
+  printf("-n  number all output lines\n");
+  printf("-E  display $ at end of each line\n");
+  printf("-h  display help\n");
   exit(status);
 }
 
