@@ -1,5 +1,6 @@
 /*
   Second attempt of interactive linked list implementation;
+  Updated menu to sort (bubblesort)
 */
 
 #include <stdio.h>
@@ -16,6 +17,8 @@ typedef struct Node
 int count_nodes(Node**);
 int data_insertion_dialog();
 void add_node(Node**, int);
+void swap_nodes(Node**, Node*, Node*);
+void bb_sort(Node**);
 void remove_node(Node**, int);
 void pop_node(Node**);
 void pop_all(Node**, int);
@@ -45,7 +48,7 @@ int main(int argc, char** argv)
     printf("\n");
     printf("1. Add node\n");
     printf("2. Delete node\n");
-    printf("3. Toggle display address\n");
+    printf("3. Sort Nodes\n");
     printf("\nSelect operation (or 'x' to exit): ");
 
     opt = getchar();
@@ -130,6 +133,10 @@ int main(int argc, char** argv)
           break;
       }
       break;
+    case '3':
+      bb_sort(&node);
+      break;
+
     default:
       break;
     }
@@ -201,6 +208,28 @@ void add_node(Node** origin, int add_pos)
   }
 }
 
+void bb_sort(Node** origin)
+{
+  bool sorting = true;
+  while (sorting)
+  {
+    sorting = false;
+    Node* node = *origin;
+    while (node->next != NULL)
+    {
+      if (node->data > node->next->data)
+      {
+        swap_nodes(origin, node, node->next);
+        sorting = true;
+      }
+      else
+      {
+        node = node->next;
+      }
+    }
+  }
+}
+
 void remove_node(Node** origin, int add_pos)
 {
   Node* node = *origin;
@@ -255,4 +284,28 @@ int count_nodes(Node** origin)
     i++;
   }
   return i;
+}
+
+void swap_nodes(Node** origin, Node* node1, Node* node2) {
+    if (node1 == node2) return;
+    
+    Node* prev1 = NULL;
+    Node* prev2 = NULL;
+    Node* curr = *origin;
+    
+    while (curr != NULL && (prev1 == NULL || prev2 == NULL)) {
+        if (curr->next == node1) prev1 = curr;
+        if (curr->next == node2) prev2 = curr;
+        curr = curr->next;
+    }
+    
+    if (prev1) prev1->next = node2;
+    if (prev2) prev2->next = node1;
+    
+    Node* temp = node1->next;
+    node1->next = node2->next;
+    node2->next = temp;
+    
+    if (*origin == node1) *origin = node2;
+    else if (*origin == node2) *origin = node1;
 }
