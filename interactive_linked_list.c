@@ -1,6 +1,7 @@
 /*
+  v.1.1.2
   Second attempt of interactive linked list implementation;
-  Updated menu to sort (bubblesort)
+  swap_node() function more efficient reimplement
 */
 
 #include <stdio.h>
@@ -287,25 +288,39 @@ int count_nodes(Node** origin)
 }
 
 void swap_nodes(Node** origin, Node* node1, Node* node2) {
-    if (node1 == node2) return;
-    
-    Node* prev1 = NULL;
-    Node* prev2 = NULL;
-    Node* curr = *origin;
-    
-    while (curr != NULL && (prev1 == NULL || prev2 == NULL)) {
-        if (curr->next == node1) prev1 = curr;
-        if (curr->next == node2) prev2 = curr;
-        curr = curr->next;
-    }
-    
-    if (prev1) prev1->next = node2;
-    if (prev2) prev2->next = node1;
-    
-    Node* temp = node1->next;
-    node1->next = node2->next;
-    node2->next = temp;
-    
-    if (*origin == node1) *origin = node2;
-    else if (*origin == node2) *origin = node1;
+  if (node1 == node2)
+    return;
+
+  Node* cur1 = *origin;
+  Node* prv1 = NULL;
+  Node* cur2 = *origin;
+  Node* prv2 = NULL;
+
+  while (cur1 != node1)
+  {
+    if (cur1->next == node1)
+      prv1 = cur1;
+    cur1 = cur1->next;
+  }
+
+  while (cur2 != node1)
+  {
+    if (cur2->next == node1)
+      prv2 = cur2;
+    cur2 = cur2->next;
+  }
+  
+  if (prv1)
+    prv1->next = cur2;
+  else
+    *origin = cur2;
+
+  if (prv2)
+    prv2->next = cur1;
+  else
+    *origin = cur1;
+  
+  Node* tmp_next = cur2->next;
+  cur2->next = cur1->next;
+  cur1->next = tmp_next;
 }
